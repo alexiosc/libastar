@@ -4,5 +4,6 @@ libastar (0.9) unstable; urgency=low
   * Major rewrite.
   * Fixed various serious bugs in the original.
   * Added profiling versions of the test programs.
+  * Debianised and fixed debianisation bugs.
 
- -- Alexios Chouchoulas <alexios@bedroomlan.org>  Sat, 14 Feb 2009 10:04:15 +0200
+ -- Alexios Chouchoulas <alexios@bedroomlan.org>  Sat, 14 Feb 2009 12:34:18 +0200
