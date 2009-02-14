@@ -694,7 +694,7 @@ _astar_main_blocked (astar_t * as, square_t * square,
         // loop (e.g. during incremental runs when the map changes and the user isn't
         // careful enough to restart the path search. So we check every time for sanity's
         // sake.
-        if (square->cost != BLOCKED) return 0;
+        if (square->cost != COST_BLOCKED) return 0;
 
         __debug("We're embedded in a blocked square at (%d,%d)!\n", x, y);
         as->bestofs = current_ofs;
@@ -935,7 +935,7 @@ astar_main_loop (astar_t * as)
                         __debug_square (as, adj);
 
                         // We don't care if it's blocked.
-                        if (adj->cost == BLOCKED) {
+                        if (adj->cost == COST_BLOCKED) {
                                 __debug ("\t...blocked.\n");
                                 continue;
                         }
@@ -1136,6 +1136,14 @@ astar_get_directions (astar_t *as, direction_t ** directions)
 }
 
 
+void
+astar_free_directions (direction_t * directions)
+{
+	assert (directions != NULL);
+	free (directions);
+}
+
+
 ///////////////////////////////////////////////////////////////////////////////
 //
 // DEBUGGING FUNCTIONS
@@ -1195,7 +1203,7 @@ astar_print (astar_t * as)
                                 }
                         } else if (!s->init) {
 #ifdef TEST_ASTAR
-                                if (grid_get (x, y) == BLOCKED) {
+                                if (grid_get (x, y) == COST_BLOCKED) {
                                         __debug("o");
                                 } else {
                                         __debug(".");

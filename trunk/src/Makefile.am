@@ -29,12 +29,12 @@ libastar_la_LDFLAGS = -version-info $(LIBVERSION)
 
 # Static library
 
-#inst_LIBRARIES = libastar.a
-#instdir = @prefix@/lib
-#libastar_adir = $(libastar_ladir)
-#libastar_a_HEADERS = $(libastar_la_HEADERS)
-#libastar_a_SOURCES = $(libastar_la_SOURCES)
-#libastar_a_CFLAGS = $(libastar_la_CFLAGS)
+inst_LIBRARIES = libastar.a
+instdir = @prefix@/lib
+libastar_adir = $(libastar_ladir)
+libastar_a_HEADERS = $(libastar_la_HEADERS)
+libastar_a_SOURCES = $(libastar_la_SOURCES)
+libastar_a_CFLAGS = $(libastar_la_CFLAGS)
 
 # pkg-config stuff, note that libpng.pc is always required in order
 # to get the correct library
@@ -43,7 +43,7 @@ pkgconfig_DATA = libastar.pc
 
 # Test programs
 
-TESTS = test_heap test_astar debug_heap debug_astar prof_heap prof_astar
+TESTS = test_heap test_astar debug_heap debug_astar prof_heap prof_astar example
 
 noinst_PROGRAMS=$(TESTS)
 
@@ -65,5 +65,9 @@ prof_astar_CFLAGS = $(test_astar_CFLAGS) -pg -DNUM_REPS=5000
 debug_astar_SOURCES = $(test_astar_SOURCES)
 #debug_astar_CFLAGS = $(test_astar_CFLAGS) -DASTAR_DEBUG
 debug_astar_CFLAGS = $(test_astar_CFLAGS) -O9 -DASTAR_DEBUG -DHEAP_DEBUG
+
+example_SOURCES = example.c
+example_CFLAGS = -DASTAR_BUILD
+example_LDFLAGS = libastar.a
 
 # End of file.
