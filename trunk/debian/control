@@ -1,0 +1,21 @@
+Source: libastar
+Priority: extra
+Maintainer: Alexios Chouchoulas <alexios@bedroomlan.org>
+Build-Depends: debhelper (>= 7), autotools-dev
+Standards-Version: 3.8.0
+Section: libs
+Homepage: <insert the upstream URL, if relevant>
+
+Package: libastar-dev
+Section: libdevel
+Architecture: any
+Depends: libastarBROKEN (= ${binary:Version})
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
+
+Package: libastarBROKEN
+Section: libs
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: <insert up to 60 chars description>
+ <insert long description, indented with spaces>
