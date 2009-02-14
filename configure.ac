@@ -16,20 +16,20 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software Foundation,
 dnl Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  
 
-AC_INIT(src/heap.c)
-
 dnl Magic to obtain the version from debian/changelog, where it should
 dnl reside.
-
 ver=`grep urgency= debian/changelog |head -1|sed -e 's/^.*(\(.*\)).*$/\1/'`
+AM_INIT_AUTOMAKE(libastar, $$ver)
+
+dnl Essential info.
+AC_SUBST(PACKAGE, "libastar")
+AC_SUBST(LIBVERSION, "foo")
+AC_SUBST(ISODATE, `date +%Y-%m-%d`)
+
+AC_INIT(src/heap.c)
 
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
-
-AM_INIT_AUTOMAKE(libastar, $$ver)
-
-ISODATE=`date +%Y-%m-%d`
-AC_SUBST(ISODATE)
 
 dnl Checks for programs.
 AC_PROG_CC
