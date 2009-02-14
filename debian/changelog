@@ -1,0 +1,5 @@
+libastar (0.9-1) unstable; urgency=low
+
+  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+
+ -- Alexios Chouchoulas <alexios@bedroomlan.org>  Sat, 14 Feb 2009 10:04:15 +0200
