@@ -33,6 +33,11 @@ extern "C" {
 #include "astar_heap.h"
 
 
+// Directions are returned as an array of these values using the various DIR_x
+// values above.
+typedef uint8_t direction_t;
+
+
 /*
  * The A* data structure itself.
  *
@@ -199,7 +204,7 @@ typedef struct {
 
 
 // This denotes the cost of impassable blocks.
-#define BLOCKED 255
+#define COST_BLOCKED 255
 
 
 // A* Result Codes (as returned by astar_run and stored in astar_t.result).
@@ -231,12 +236,6 @@ typedef struct {
 #define DIR_END 255
 
 
-// Directions are returned as an array of these values using the various DIR_x
-// values above.
-typedef uint8_t direction_t;
-
-
-
 astar_t *
 astar_new (const uint32_t w, const uint32_t h,
 	   uint8_t (*get) (const uint32_t, const uint32_t),
@@ -247,7 +246,9 @@ void astar_init_grid (astar_t * as,
 		      uint32_t origin_x, uint32_t origin_y,
 		      uint8_t(*get)(const uint32_t, const uint32_t));
 
-uint32_t astar_get_directions (astar_t *as, uint8_t ** directions);
+uint32_t astar_get_directions (astar_t *as, direction_t ** directions);
+
+void astar_free_directions (direction_t * directions);
 
 void astar_set_origin (astar_t * as, const uint32_t x, const uint32_t y);
 
@@ -266,6 +267,20 @@ void astar_set_heuristic_factor (astar_t *as, const uint32_t heuristic_factor);
 int astar_run (astar_t * as,
 	       const uint32_t x0, const uint32_t y0,
 	       const uint32_t x1, const uint32_t y1);
+
+// Return the last A* result code.
+#define astar_result(as) (as)->result
+
+// Return the last A* result code (string version).
+#define astar_str_result(as) (as)->str_result
+
+// Return non-zero if the A* algorithm has a route. This is only a
+// full route if ASTAR_FOUND is the result code.
+#define astar_have_route(as) (as)->have_route
+
+// Convert directions to dx, dy.
+#define astar_get_dx(as,dir) ((as)->dx[dir])
+#define astar_get_dy(as,dir) ((as)->dy[dir])
 
 
 #ifdef ASTAR_DEBUG

@@ -30,6 +30,7 @@ extern "C" {
 #endif // __cplusplus
 
 
+#include <sys/time.h>
 #include "astar_config.h"
 
 
