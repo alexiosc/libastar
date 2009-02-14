@@ -36,10 +36,10 @@ echo "Generating configuration files, please wait...."
 echo;
 
 #autopoint
-aclocal${amver} $ACLOCAL_FLAGS -I m4
+aclocal${amver} $ACLOCAL_FLAGS
+autoconf${acver};
 autoheader${acver};
 automake${amver} --add-missing;
-autoconf${acver};
 
 echo "Running configure $@"
 echo;
