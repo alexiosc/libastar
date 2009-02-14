@@ -36,6 +36,7 @@ echo "Generating configuration files, please wait...."
 echo;
 
 #autopoint
+libtoolize
 aclocal${amver} $ACLOCAL_FLAGS
 autoconf${acver};
 autoheader${acver};
