@@ -84,7 +84,7 @@ map_init()
 	}
 
 	// Now, fill it with some random walls (one wall per 50 spaces)
-	for (i = 0; i < WIDTH * HEIGHT / 10; i++) {
+	for (i = 0; i < WIDTH * HEIGHT / 5; i++) {
 		// Fill random spots with 2-column, 1-row blocks
 		x = rand() % (WIDTH - 1);
 		y = rand() % HEIGHT;
@@ -122,7 +122,7 @@ int main (int argc, char ** argv)
 	int x0, y0, x1, y1;
 	int result;
 
-	srand(time(NULL));
+	srand(time(NULL) ^ getpid());
   
 	// Initialise the map.
 	map_init();
