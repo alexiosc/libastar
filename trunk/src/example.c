@@ -84,7 +84,7 @@ map_init()
 	}
 
 	// Now, fill it with some random walls (one wall per 50 spaces)
-	for (i = 0; i < WIDTH * HEIGHT / 5; i++) {
+	for (i = 0; i < WIDTH * HEIGHT / 3; i++) {
 		// Fill random spots with 2-column, 1-row blocks
 		x = rand() % (WIDTH - 1);
 		y = rand() % HEIGHT;
@@ -139,6 +139,31 @@ int main (int argc, char ** argv)
 
 	astar_set_origin (as, 0, 0);
 	
+	// By setting the steering penalty, you penalise direction
+	// changes. This can lead in more direct routes, but it can also make
+	// the algorithm work harder to find a route. The default pre-bundled
+	// value for this cost is 5 (5 less than the cost of moving in the four
+	// cardinal directions). Set it to zero, and the route can meander
+	// more.
+	
+	// astar_set_steering_penalty (as, 5);
+
+	// If you have a preference for movement in the cardinal directions
+	// only, assign a high cost to the other four directions. If the only
+	// way to get from A to B is to move dianogally, a diagonal move will
+	// still be used though.
+
+	// astar_set_cost (as, DIR_NE, 100);
+	// astar_set_cost (as, DIR_NW, 100);
+	// astar_set_cost (as, DIR_SW, 100);
+	// astar_set_cost (as, DIR_SE, 100);
+
+	// Instead, if you want to only route using the four cardinal
+	// directions, say this:
+
+	// astar_set_movement_mode (as, DIR_CARDINAL);
+	// astar_set_movement_mode (as, DIR_8WAY); // This is the default.
+	
 	// Starting near the upper left corner of the map.
 	x0 = 2;
 	y0 = 1;
@@ -168,8 +193,12 @@ int main (int argc, char ** argv)
 		int x, y;
 
 		num_steps = astar_get_directions (as, &directions);
-		
-		printf ("We have a route. It has %d step(s).\n", num_steps);
+
+		if (result == ASTAR_FOUND) {
+			printf ("We have a route. It has %d step(s).\n", num_steps);
+		} else {
+			printf ("The best compromise route has %d step(s).\n", num_steps);
+		}
 		
 		// The directions start at our (x0, y0) and give us
 		// step-by-step directions (e.g. N, E, NE, N) to

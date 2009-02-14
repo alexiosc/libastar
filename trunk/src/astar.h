@@ -33,6 +33,10 @@ extern "C" {
 #include "astar_heap.h"
 
 
+// The maximum number of directions
+#define NUM_DIRS 8
+
+
 // Directions are returned as an array of these values using the various DIR_x
 // values above.
 typedef uint8_t direction_t;
@@ -111,13 +115,13 @@ typedef struct {
 	// Arrays of 8 elements holding delta-x and delta-y pairs for the eight
 	// directions.
 
-	int32_t dx[8];
-	int32_t dy[8];
+	int32_t dx[NUM_DIRS];
+	int32_t dy[NUM_DIRS];
 
 	// An array of 8 elements holding the costs of moving in each of the
 	// directions.
 
-	int32_t mc[8];
+	int32_t mc[NUM_DIRS];
 
 	// The steering penalty is added to the cost of any move that includes a change in
 	// direction.
@@ -177,6 +181,7 @@ typedef struct {
 	uint32_t  grid_clean:1; // The grid is ready for use.
 	uint32_t  have_route:1; // A (partial) route has been found.
 	uint32_t  have_best:1;  // There's a compromise route.
+        uint32_t  move_8way:1;   // Move along all 8 directions.
 	
 	struct timeval t0;      // Algorithm start time.
 
@@ -222,13 +227,17 @@ typedef struct {
 
 // We use three bits to specify the direction of a square's 'parent'.
 #define DIR_N  0
-#define DIR_NE 1
-#define DIR_E  2
-#define DIR_SE 3
-#define DIR_S  4
-#define DIR_SW 5
-#define DIR_W  6
+#define DIR_E  1
+#define DIR_S  2
+#define DIR_W  3
+#define DIR_NE 4
+#define DIR_SE 5
+#define DIR_SW 6
 #define DIR_NW 7
+
+// Movement modes.
+#define DIR_CARDINAL  0
+#define DIR_8WAY      1
 
 
 // This is only used in directions_t to signify the end of the directions (for
@@ -245,6 +254,8 @@ astar_new (const uint32_t w, const uint32_t h,
 void astar_init_grid (astar_t * as,
 		      uint32_t origin_x, uint32_t origin_y,
 		      uint8_t(*get)(const uint32_t, const uint32_t));
+
+void astar_set_movement_mode (astar_t * as, int movement_mode);
 
 uint32_t astar_get_directions (astar_t *as, direction_t ** directions);
 

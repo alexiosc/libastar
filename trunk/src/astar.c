@@ -412,6 +412,7 @@ astar_new (const uint32_t w,
         as->origin_x = 0;
         as->origin_y = 0;
         as->origin_set = 0;
+	as->move_8way = 1;
         memcpy (as->dx, _dx, sizeof(as->dx));
         memcpy (as->dy, _dy, sizeof(as->dy)); 
         memcpy (as->mc, _mc, sizeof(as->mc));
@@ -465,6 +466,14 @@ astar_set_timeout (astar_t *as, const uint32_t timeout)
 {
         assert (as != NULL);
         as->timeout = timeout;
+}
+
+
+void
+astar_set_movement_mode (astar_t * as, int mode)
+{
+	assert (as != NULL);
+	as->move_8way = mode & 1;
 }
 
 
@@ -821,7 +830,7 @@ astar_main_loop (astar_t * as)
 {
         square_t * square = NULL;
         uint32_t   current_ofs;
-        register uint32_t dir;
+        register int dir;
 
         // Obtain the starting square.
         current_ofs = as->ofs0;
@@ -914,9 +923,17 @@ astar_main_loop (astar_t * as)
                 //
                 ///////////////////////////////////////////////////////////////
 
-                for (dir = 0; dir < 8; dir++) {
+		// The order doesn't matter, so start at num_dirs - 1 and step
+		// down to 0. This is faster (simpler loop conditionals)
+
+                for (dir = 0; dir < NUM_DIRS; dir++) {
                         uint32_t adj_x = x + as->dx[dir];
                         uint32_t adj_y = y + as->dy[dir];
+
+			// Odd-numbered directions are the non-cardinal
+			// ones. If the movement mode is along the cardinal
+			// directions, skip odd directions.
+			if ((as->move_8way == 0) && (dir & 1)) continue;
 
                         // Ensure we're still within the bounds of the search
                         // grid. As the co-ordinates are all unsigned, reaching
@@ -1380,6 +1397,7 @@ main (int argc, char ** argv)
         //astar_set_max_cost (200);
         astar_set_steering_penalty (as, 20);
         //astar_set_heuristic_factor(10);
+	astar_set_movement_mode (as, 4);
 
         // Test trivial results.
         result_code = astar_run (as, 0,0, 0,0);
