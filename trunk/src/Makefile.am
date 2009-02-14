@@ -19,12 +19,16 @@
 COMMON_CFLAGS=-Wall
 
 lib_LTLIBRARIES = libastar.la
-libastar_la_SOURCES = \
-	common.h \
-	heap.c heap.h \
-	astar.c astar.h
+libastar_ladir = @prefix@/include/libastar
+libastar_la_HEADERS = astar.h heap.h common.h
+libastar_la_SOURCES = $(libastar_la_HEADERS) heap.c astar.c
 libastar_la_CFLAGS = $(COMMON_CFLAGS)
 libastar_la_LDFLAGS = -version-info $(LIBVERSION)
+
+# pkg-config stuff, note that libpng.pc is always required in order
+# to get the correct library
+pkgconfigdir = @pkgconfigdir@
+pkgconfig_DATA = libastar.pc
 
 # Test programs
 
