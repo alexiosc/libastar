@@ -77,7 +77,7 @@ AC_SUBST([pkgconfigdir])
 AC_MSG_NOTICE([pkgconfig directory is ${pkgconfigdir}])
 
 dnl create a config.h file (Automake will add -DHAVE_CONFIG_H)
-AM_CONFIG_HEADER(config.h)
+AM_CONFIG_HEADER(src/astar_config.h)
 
 AC_MSG_CHECKING(package name)
 AC_MSG_RESULT($PACKAGE)

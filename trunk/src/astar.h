@@ -30,7 +30,7 @@ extern "C" {
 #endif // __cplusplus
 
 
-#include "heap.h"
+#include "astar_heap.h"
 
 
 /*

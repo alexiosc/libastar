@@ -30,7 +30,16 @@ extern "C" {
 #endif // __cplusplus
 
 
-#include "common.h"
+#include "astar_config.h"
+
+
+#ifdef HAVE_STDINT_H
+#include <stdint.h>
+#else
+#  ifndef uint32_t
+#    error "stdint.h is not available, and the various intXX_t and uintXX_t types are undefined."
+#  endif // uint32_t
+#endif // HAVE_STDINT_H
 
 
 /*

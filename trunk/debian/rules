@@ -44,7 +44,6 @@ endif
 	libtoolize
 	aclocal
 	autoconf
-	autoheader
 	automake
 	./configure $(CROSS) \
 		--prefix=/usr \

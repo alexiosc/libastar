@@ -22,8 +22,8 @@ COMMON_CFLAGS=-Wall
 
 lib_LTLIBRARIES = libastar.la
 libastar_ladir = @prefix@/include/libastar
-libastar_la_HEADERS = astar.h heap.h common.h
-libastar_la_SOURCES = $(libastar_la_HEADERS) heap.c astar.c
+libastar_la_HEADERS = astar.h astar_heap.h astar_config.h
+libastar_la_SOURCES = $(libastar_la_HEADERS) astar_heap.c astar.c
 libastar_la_CFLAGS = $(COMMON_CFLAGS)
 libastar_la_LDFLAGS = -version-info $(LIBVERSION)
 
@@ -47,16 +47,16 @@ TESTS = test_heap test_astar debug_heap debug_astar prof_heap prof_astar
 
 noinst_PROGRAMS=$(TESTS)
 
-test_heap_SOURCES = heap.c heap.h
+test_heap_SOURCES = astar_heap.c astar_heap.h
 test_heap_CFLAGS = -DTEST_HEAP
 
-prof_heap_SOURCES = heap.c heap.h
+prof_heap_SOURCES = astar_heap.c astar_heap.h
 prof_heap_CFLAGS = -DTEST_HEAP -pg -DNUM_INS=1000000
 
 debug_heap_SOURCES = $(test_heap_SOURCES)
 debug_heap_CFLAGS = $(test_heap_CFLAGS) -O9 -DHEAP_DEBUG
 
-test_astar_SOURCES = common.h astar.c astar.h heap.c heap.h
+test_astar_SOURCES = astar_config.h astar.c astar.h astar_heap.c astar_heap.h
 test_astar_CFLAGS = -DTEST_ASTAR -pg
 
 prof_astar_SOURCES = $(test_astar_SOURCES)
