@@ -16,20 +16,27 @@ dnl You should have received a copy of the GNU General Public License
 dnl along with this program; if not, write to the Free Software Foundation,
 dnl Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.  
 
-dnl Magic to obtain the version from debian/changelog, where it should
-dnl reside.
-ver=`grep urgency= debian/changelog |head -1|sed -e 's/^.*(\(.*\)).*$/\1/'`
-AM_INIT_AUTOMAKE(libastar, $$ver)
-
-dnl Essential info.
-AC_SUBST(PACKAGE, "libastar")
-AC_SUBST(LIBVERSION, "foo")
-AC_SUBST(ISODATE, `date +%Y-%m-%d`)
-
 AC_INIT(src/heap.c)
 
+AC_CANONICAL_SYSTEM
 AC_CANONICAL_HOST
 AC_CANONICAL_TARGET
+
+dnl Magic to obtain the version from debian/changelog, where it should
+dnl reside.
+AM_INIT_AUTOMAKE($PACKAGE,$$PACKAGE_VERSION)
+
+dnl Essential info (some autodetected)
+PACKAGE=`grep urgency= debian/changelog|head -1 | sed 's/ .*//'`
+PACKAGE_VERSION=`grep urgency= debian/changelog |head -1|sed -e 's/^.*(\(.*\)).*$/\1/'`
+LIBVERSION=0:0:0
+ISODATE=`date +%Y-%m-%d`
+
+dnl Export essential info.
+AC_SUBST(PACKAGE)
+AC_SUBST(PACKAGE_VERSION)
+AC_SUBST(LIBVERSION)
+AC_SUBST(ISODATE)
 
 dnl Checks for programs.
 AC_PROG_CC
@@ -57,10 +64,25 @@ AC_CHECK_FUNCS(program_invocation_name program_invocation_short_name vsnprintf s
 dnl If we have groff, we can build HTML documentation
 AC_CHECK_PROG(groff, groff, groff, no)
 
+dnl Additional arguments (and substitutions)
+dnl Allow the pkg-config directory to be set
+dnl (stanza taken from libpng)
+AC_ARG_WITH(pkgconfigdir,
+	AC_HELP_STRING([--with-pkgconfigdir],
+	[Use the specified pkgconfig dir (default is libdir/pkgconfig)]),
+	[pkgconfigdir=${withval}],
+	[pkgconfigdir='${libdir}/pkgconfig'])
+
+AC_SUBST([pkgconfigdir])
+AC_MSG_NOTICE([pkgconfig directory is ${pkgconfigdir}])
+
 dnl create a config.h file (Automake will add -DHAVE_CONFIG_H)
 AM_CONFIG_HEADER(config.h)
 
+AC_MSG_CHECKING(package name)
+AC_MSG_RESULT($PACKAGE)
+
 dnl Write files.
-AC_OUTPUT(Makefile src/Makefile)
+AC_OUTPUT(Makefile src/Makefile src/libastar.pc)
 
 dnl End of file.

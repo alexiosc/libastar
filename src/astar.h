@@ -30,7 +30,6 @@ extern "C" {
 #endif // __cplusplus
 
 
-#include "../config.h"
 #include "heap.h"
 
 

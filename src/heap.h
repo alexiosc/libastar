@@ -30,7 +30,7 @@ extern "C" {
 #endif // __cplusplus
 
 
-#include "../config.h"
+#include "common.h"
 
 
 /*
