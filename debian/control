@@ -9,7 +9,7 @@ Homepage: http://www.bedroomlan.org/coding/libastar
 Package: libastar-dev
 Section: libdevel
 Architecture: any
-Depends: libastarBROKEN (= ${binary:Version})
+Depends: libastar0 (= ${binary:Version})
 Description: An implementation of the A* algorithm (development files)
  An efficient implementation of the A* algorithm meant for 2D maps,
  intended for use as a path-finding algorithm in games.

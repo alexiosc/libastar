@@ -39,7 +39,7 @@ echo;
 libtoolize
 aclocal${amver} $ACLOCAL_FLAGS
 autoconf${acver};
-autoheader${acver};
+#autoheader${acver};
 automake${amver} --add-missing;
 
 echo "Running configure $@"
