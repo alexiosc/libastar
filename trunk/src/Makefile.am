@@ -24,6 +24,7 @@ libastar_la_SOURCES = \
 	heap.c heap.h \
 	astar.c astar.h
 libastar_la_CFLAGS = $(COMMON_CFLAGS)
+libastar_la_LDFLAGS = -version-info $(LIBVERSION)
 
 # Test programs
 
