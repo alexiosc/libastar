@@ -1,7 +1,7 @@
 Source: libastar
 Priority: optional
 Maintainer: Alexios Chouchoulas <alexios@bedroomlan.org>
-Build-Depends: debhelper (>= 7), autotools-dev
+Build-Depends: debhelper (>= 7), autotools-dev, libtool, autoconf, automake
 Standards-Version: 3.8.0
 Section: libs
 Homepage: http://www.bedroomlan.org/coding/libastar
@@ -18,7 +18,7 @@ Description: An implementation of the A* algorithm (development files)
  heap for its open list. This allows A*-specific optimisations to
  account for the way the algorithm works.
 
-Package: libastar1
+Package: libastar0
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
