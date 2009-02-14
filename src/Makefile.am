@@ -18,12 +18,23 @@
 
 COMMON_CFLAGS=-Wall
 
+# Dynamic library
+
 lib_LTLIBRARIES = libastar.la
 libastar_ladir = @prefix@/include/libastar
 libastar_la_HEADERS = astar.h heap.h common.h
 libastar_la_SOURCES = $(libastar_la_HEADERS) heap.c astar.c
 libastar_la_CFLAGS = $(COMMON_CFLAGS)
 libastar_la_LDFLAGS = -version-info $(LIBVERSION)
+
+# Static library
+
+#inst_LIBRARIES = libastar.a
+#instdir = @prefix@/lib
+#libastar_adir = $(libastar_ladir)
+#libastar_a_HEADERS = $(libastar_la_HEADERS)
+#libastar_a_SOURCES = $(libastar_la_SOURCES)
+#libastar_a_CFLAGS = $(libastar_la_CFLAGS)
 
 # pkg-config stuff, note that libpng.pc is always required in order
 # to get the correct library
