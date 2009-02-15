@@ -1,3 +1,9 @@
+libastar (0.9-1) unstable; urgency=low
+
+  * Fixed a minor Debian packaging issue.
+
+ -- Alexios Chouchoulas <alexios@bedroomlan.org>  Sun, 15 Feb 2009 11:33:40 +0200
+
 libastar (0.9) unstable; urgency=low
 
   * Initial code import.
