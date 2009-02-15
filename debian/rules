@@ -36,7 +36,7 @@ configure:
 	libtoolize
 	aclocal
 	autoconf
-	automake
+	automake --add-missing
 
 config.status: configure
 	dh_testdir
