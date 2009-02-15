@@ -1,3 +1,9 @@
+libastar (0.9-2) unstable; urgency=low
+
+  * Yet another minor Debian packaging fix.
+
+ -- Alexios Chouchoulas <alexios@bedroomlan.org>  Sun, 15 Feb 2009 11:43:28 +0200
+
 libastar (0.9-1) unstable; urgency=low
 
   * Fixed a minor Debian packaging issue.
