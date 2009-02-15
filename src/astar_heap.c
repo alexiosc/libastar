@@ -449,8 +449,8 @@ main (int argc, char ** argv)
 		assert ((uint64_t) payload == (uint64_t) next);
 #else
 		assert ((uint32_t) payload == (uint32_t) next);
-	}
 #endif // __WORDSIZE
+	}
 
 	printf ("Popping has been verified to be monotonic.\n");
 	printf ("Key to payload mapping has been verified to be consistent.\n");
