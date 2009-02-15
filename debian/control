@@ -22,6 +22,7 @@ Package: libastar0
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Provides: libastar
 Description: An implementation of the A* algorithm
  An efficient implementation of the A* algorithm meant for 2D maps,
  intended for use as a path-finding algorithm in games.
