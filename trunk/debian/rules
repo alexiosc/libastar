@@ -36,10 +36,10 @@ configure:
 	libtoolize
 	aclocal
 	autoconf
-	automake --add-missing
 
 config.status: configure
 	dh_testdir
+	automake --add-missing
 	./configure $(CROSS) \
 		--prefix=/usr \
 		--mandir=\$${prefix}/share/man \
