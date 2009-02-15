@@ -33,7 +33,6 @@ major=2
 # awk '{if (match($$0,/\.so\.[0-9]+$$/)) print substr($$0,RSTART+4)}'`
 
 configure:
-	./autogen.sh
 	libtoolize
 	aclocal
 	autoconf
