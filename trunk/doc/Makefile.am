@@ -1,4 +1,6 @@
-SOURCES = $(wildcard ../src/*.[ch])
+SOURCES = \
+	../src/astar.c \
+	../src/astar.h
 
 all:	doc-stamp
 
