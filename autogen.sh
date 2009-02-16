@@ -45,4 +45,4 @@ automake${amver} --add-missing;
 echo "Running configure $@"
 echo;
 
-./configure $@
+# ./configure $@

@@ -122,22 +122,40 @@ int main (int argc, char ** argv)
 	int x0, y0, x1, y1;
 	int result;
 
-	srand(time(NULL) ^ getpid());
+	srand (time(NULL) ^ getpid());
   
 	// Initialise the map.
 	map_init();
 	
-	// Allocate an A* context.
+	// Allocate an A* context. The third parameter is the map getter, the
+	// callback you have to write to let A* know about your map (see
+	// above). The fourth parameter is a custom heuristic function. You
+	// give it two sets of (X,Y) coordinates and it returns a uint32_t
+	// number that corresponds to the estimated distance between the two
+	// co-ordinates (or cost to travel from the first to the second). You
+	// may pass NULL, in which case the built-in Manhattan Distance
+	// heuristic is used.
 	as = astar_new (WIDTH, HEIGHT, get_map_cost, NULL);
 
-	// Set the map origin. This allows us to look for a route in
-	// an area smaller than the full game map (by setting the
-	// origin to the origin of that area, and giving astar_new() a
-	// width and height smaller than the full map's. It's
-	// mandatory to set this, even if it's just zero. If you don't set it,
-	// the algorithm will fail with an ASTAR_ORIGIN_NOT_SET error.
-
+	// Set the map origin. This allows us to look for a route in an area
+	// smaller than the full game map (by setting the origin to the origin
+	// of that area, and giving astar_new() a width and height smaller than
+	// the full map's. It's mandatory to set this, even if it's just
+	// zero. If you don't set it, the algorithm will fail with an
+	// ASTAR_ORIGIN_NOT_SET error.
 	astar_set_origin (as, 0, 0);
+
+	// To interface your map with the (possibly smaller) map kept in the
+	// astar_t structure, you can either let A* obtain only the map squares
+	// it needs when it needs them, or you can fully initialise the map
+	// beforehand (this also sets the origin and the map getter
+	// callback. Depending on the structure of your program and how many
+	// times you run astar_run on the same astar_t structure, this may be a
+	// faster option than obtaining map squares on demand. Profile your
+	// project and find out. In this example, we let A* get just the
+	// squares it needs on demand.
+	//
+	// astar_init_grid (as, 0, 0, get_map_cost);
 	
 	// By setting the steering penalty, you penalise direction
 	// changes. This can lead in more direct routes, but it can also make
@@ -158,10 +176,13 @@ int main (int argc, char ** argv)
 	// astar_set_cost (as, DIR_SW, 100);
 	// astar_set_cost (as, DIR_SE, 100);
 
-	// Instead, if you want to only route using the four cardinal
+	// Instead, if you want to ONLY route using the four cardinal
 	// directions, say this:
 
 	// astar_set_movement_mode (as, DIR_CARDINAL);
+	
+	// ... or ...
+
 	// astar_set_movement_mode (as, DIR_8WAY); // This is the default.
 	
 	// Starting near the upper left corner of the map.
@@ -181,11 +202,10 @@ int main (int argc, char ** argv)
 		as->x1, as->y1,
 		as->str_result, result);
 	
-	// Do we have a route? We don't care if the route is partial
-	// or full here. If you need a full route, you must ensure the return
-	// value of astar_run is ASTAR_FOUND. If it isn't, and
-	// astar_have_route() returns non-zero, there's a (possibly partial)
-	// route.
+	// Do we have a route? We don't care if the route is partial or full
+	// here. If you need a full route, you must ensure the return value of
+	// astar_run is ASTAR_FOUND. If it isn't, and astar_have_route()
+	// returns non-zero, there's a (possibly partial) route.
 
 	if (astar_have_route (as)) {
 		direction_t * directions, * dir;
@@ -201,14 +221,13 @@ int main (int argc, char ** argv)
 		}
 		
 		// The directions start at our (x0, y0) and give us
-		// step-by-step directions (e.g. N, E, NE, N) to
-		// either our (x1, y1) in the case of a full route, or
-		// the best compromise.
+		// step-by-step directions (e.g. N, E, NE, N) to either our
+		// (x1, y1) in the case of a full route, or the best
+		// compromise.
 		x = x0;
 		y = y0;
 		dir = directions;
 		for (i = 0; i < num_steps; i++, dir++) {
-
 			// Convince ourselves that A* never made us go through walls.
 			assert (get_map (x, y) != MAP_WALL);
 			
@@ -230,6 +249,12 @@ int main (int argc, char ** argv)
 
 	// Print the map.
 	map_print();
+
+	// If you want to look for another path, you don't need to reallocate a
+	// new astar_t structure. all you need to say is:
+	//
+	// astar_reset (as);
+	// astar_run = astar_run (as, x0, y0, x1, y1);
 
 	// Dellocate the A* algorithm context.
 	astar_destroy (as);

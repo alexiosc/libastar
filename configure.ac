@@ -64,6 +64,12 @@ AC_CHECK_FUNCS(program_invocation_name program_invocation_short_name vsnprintf s
 dnl If we have groff, we can build HTML documentation
 AC_CHECK_PROG(groff, groff, groff, no)
 
+dnl Check for doxygen
+AC_CHECK_PROG(doxygen, doxygen, doxygen, no)
+if test .$doxygen = .no ; then
+   AC_MSG_NOTICE([Doxygen not found. Documentation cannot be rebuilt.)])
+fi
+
 dnl Additional arguments (and substitutions)
 dnl Allow the pkg-config directory to be set
 dnl (stanza taken from libpng)
@@ -83,6 +89,6 @@ AC_MSG_CHECKING(package name)
 AC_MSG_RESULT($PACKAGE)
 
 dnl Write files.
-AC_OUTPUT(Makefile src/Makefile src/libastar.pc)
+AC_OUTPUT(Makefile src/Makefile src/libastar.pc doc/Makefile doc/doxygen.rc)
 
 dnl End of file.
