@@ -76,6 +76,8 @@ install: build
 
 	# Add here commands to install the package into debian/tmp
 	$(MAKE) DESTDIR=$(CURDIR)/debian/tmp install
+	mkdir -p $(CURDIR)/debian/libastar-dev/usr/share/doc/libastar-dev
+	cp -rva doc/html $(CURDIR)/debian/libastar-dev/usr/share/doc/libastar-dev/html
 
 
 # Build architecture-independent files here.
